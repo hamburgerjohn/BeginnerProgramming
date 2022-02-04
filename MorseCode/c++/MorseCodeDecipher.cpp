@@ -7,19 +7,31 @@ MorseCodeDecipher::MorseCodeDecipher(const char* filename) : filename(filename){
 MorseCodeDecipher::MorseCodeDecipher(){}
 MorseCodeDecipher::~MorseCodeDecipher(){}
 
-void MorseCodeDecipher::SetFilename(const char* filename){
+void MorseCodeDecipher::SetPhrase(const std::string& phrase){
+    this->phrase = phrase;
+}
+
+void MorseCodeDecipher::SetFilename(const std::string& filename){
     this->filename = filename;
         
 }
 
-const char * MorseCodeDecipher::GetDecipheredCode() const{
-    return this->code.c_str();
+const std::string& MorseCodeDecipher::GetPhrase() const{
+    return this->phrase;
+}
+
+const std::string& MorseCodeDecipher::GetFilename() const{
+    return this->filename;
+}
+
+const std::string& MorseCodeDecipher::GetDecipheredCode() const{
+    return this->phrase;
 }
 
 void MorseCodeDecipher::Decipher(){
         
     fd.open(filename, std::ios::in|std::ios::binary|std::ios::ate);
-    code = "";
+    phrase = "";
 
     fd.seekg(0, std::ios::end);
     eof = fd.tellg();
@@ -39,9 +51,9 @@ void MorseCodeDecipher::Decipher(){
         if(decoded != 0)
         {
             if(off > 500)
-                code += "   ";
+                phrase += "   ";
             else if(off > 200)
-                code += " "; 
+                phrase += " "; 
             on++;
             off = 0;
         }
@@ -49,9 +61,9 @@ void MorseCodeDecipher::Decipher(){
         else
         {
             if(on > 200)
-                code += "-";
+                phrase += "-";
             else if(on > 100)
-                code += ".";
+                phrase += ".";
 
             off++;
             on = 0;
@@ -66,27 +78,29 @@ void MorseCodeDecipher::Decipher(){
 
 }
 
-std::string MorseCodeDecipher::ConvertToEnglish(const std::string& phrase){
-    std::string english = "";
-    std::string temp = "";
+const std::string MorseCodeDecipher::ConvertToEnglish(){
+    
+    std::string temp1 = "", temp2 = this->phrase;
     int space_count=0;
 
-    for(auto i=0; i < phrase.length(); i++){
+    this->phrase = "";
+
+    for(auto i=0; i < temp2.length(); i++){
 
         if(phrase[i] != 32){
-            temp += phrase[i];
+            temp1 += phrase[i];
             space_count = 0;
         }
         else{
             space_count++;
-            helper(english, temp, space_count);
+            helper(this->phrase, temp1, space_count);
                     
-            temp = "";
+            temp1 = "";
         }
 
     }
-    helper(english, temp, space_count);
-    return english;
+    helper(this->phrase, temp1, space_count);
+    return this->phrase;
 }
 
 

@@ -57,7 +57,7 @@ void WriteMorseCode::WriteToFile(std::ofstream &file, int value, int size){
 
 
 
-void WriteMorseCode::InitWAVE(const char* filename){
+void WriteMorseCode::InitWAVE(){
     audio_file.open(filename, std::ios::binary);
         //Header chunk
     audio_file << "RIFF";

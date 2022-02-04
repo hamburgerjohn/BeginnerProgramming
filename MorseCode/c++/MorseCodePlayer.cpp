@@ -2,17 +2,25 @@
 
 using namespace Morse;
 
-MorseCodePlayer::MorseCodePlayer(std::string code) : WriteMorseCode(){ this->code = code;}
+MorseCodePlayer::MorseCodePlayer(const char* phrase) : WriteMorseCode(){ this->phrase = phrase;}
 MorseCodePlayer::MorseCodePlayer() : WriteMorseCode(){}
 MorseCodePlayer::~MorseCodePlayer(){}
 
 
-void MorseCodePlayer::SetCode(std::string code){
-    this->code = code;
+void MorseCodePlayer::SetPhrase(const std::string& phrase){
+    this->phrase = " " + phrase;
 }
 
-const std::string&  MorseCodePlayer::GetCode() const{
-    return code;
+void MorseCodePlayer::SetFilename(const std::string& filename){
+    this->filename = filename;
+}
+
+const std::string& MorseCodePlayer::GetFilename() const{
+    return this->filename;
+}
+
+const std::string&  MorseCodePlayer::GetPhrase() const{
+    return this->phrase;
 }
 
 void MorseCodePlayer::RecordMorse(){
@@ -20,11 +28,11 @@ void MorseCodePlayer::RecordMorse(){
     FormatCode();
     SetPos();
 
-    for(auto i = 0; i < code.length(); i++){
+    for(auto i = 0; i < phrase.length(); i++){
             
-        if(code[i] == '.') Dot(); 
+        if(phrase[i] == '.') Dot(); 
 
-        else if(code[i] == '-') Dash();
+        else if(phrase[i] == '-') Dash();
 
         else{
             Space(.25);
@@ -33,31 +41,32 @@ void MorseCodePlayer::RecordMorse(){
     FinalizeWAVE();
 }
 
-void MorseCodePlayer::PlayMorse(const char* filename){
-    std::string a = filename;
-    
-    std::thread th(&MorseCodePlayer::Execute,this,"cvlc --play-and-exit " + a);
+void MorseCodePlayer::PlayMorse(){
+
+    std::thread th(&MorseCodePlayer::Execute,this,"cvlc --play-and-exit " + filename);
 
     th.join();
 }
 
-std::string& MorseCodePlayer::ConvertToMorse(std::string& phrase) {
-        
-    code = "";
+const std::string MorseCodePlayer::ConvertToMorse() {
 
-    for(auto i=0; i < phrase.length(); i++){
-        code += m_map.find(toupper(phrase[i]))->second;
+    std::string temp = phrase;  
+     
+    this->phrase = "";
+
+    for(auto i=0; i < temp.length(); i++){
+        this->phrase += m_map.find(toupper(temp[i]))->second;
             
     }
-
-    return code;
+    
+    return this->phrase;
 }
     
 void MorseCodePlayer::FormatCode(){
     
-    for(auto i = 0; i < code.length(); i++){
-        if(code[i] == '_' || code[i] == '-'){
-            code[i] = '-';
+    for(auto i = 0; i < phrase.length(); i++){
+        if(phrase[i] == '_' || phrase[i] == '-'){
+            phrase[i] = '-';
         }
     }
 }

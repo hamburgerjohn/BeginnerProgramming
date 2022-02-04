@@ -15,7 +15,10 @@ PYBIND11_MODULE(morse, handle){
     .def("ConvertToEnglish", &MorseCodeDecipher::ConvertToEnglish)
     .def("SetFilename", &MorseCodeDecipher::SetFilename)
     .def("Decipher", &MorseCodeDecipher::Decipher)
-    .def("GetDecipheredCode", &MorseCodeDecipher::GetDecipheredCode);
+    .def("GetDecipheredCode", &MorseCodeDecipher::GetDecipheredCode)
+    .def("SetPhrase", &MorseCodeDecipher::SetPhrase)
+    .def("GetPhrase", &MorseCodeDecipher::GetPhrase)
+    .def("GetFilename", &MorseCodeDecipher::GetFilename);
 
     py::class_<Morse::MorseCodePlayer>(
         handle, "PyMorseCodePlayer"
@@ -26,6 +29,9 @@ PYBIND11_MODULE(morse, handle){
     .def("InitWAVE", &MorseCodePlayer::InitWAVE)
     .def("RecordMorse", &MorseCodePlayer::RecordMorse)
     .def("PlayMorse", &MorseCodePlayer::PlayMorse)
-    .def("SetCode", &MorseCodePlayer::GetCode);
+    .def("GetPhrase", &MorseCodePlayer::GetPhrase)
+    .def("SetFilename", &MorseCodePlayer::SetFilename)
+    .def("SetPhrase", &MorseCodePlayer::SetPhrase)
+    .def("GetFilename", &MorseCodePlayer::GetFilename);
 }
 

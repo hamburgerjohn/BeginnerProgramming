@@ -7,10 +7,12 @@ namespace Morse{
 
 class WriteMorseCode : public WaveMaker{
 
+protected:
+    std::string filename;
+
 private:
     std::ofstream audio_file;
     double max_amp;
-    std::string filename;
     int pre_au_pos, post_au_pos;
 
 protected:
@@ -29,7 +31,7 @@ private:
     void WriteToFile(std::ofstream&, int, int);
 
 public:
-    void InitWAVE(const char*);
+    void InitWAVE();
 
 };
 

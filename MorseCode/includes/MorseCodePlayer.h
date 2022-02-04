@@ -15,22 +15,25 @@ static std::map<int, const char*> m_map{
 class MorseCodePlayer : public WriteMorseCode{
 
 private:
-    std::string code;
+    std::string phrase;
 
 public:
-    MorseCodePlayer(std::string);
+    MorseCodePlayer(const char*);
     MorseCodePlayer();
 
     ~MorseCodePlayer();
 
-    void SetCode(std::string);
-
-    const std::string& GetCode() const;
+    void SetPhrase(const std::string&);
+    void SetFilename(const std::string&);
+    const std::string& GetPhrase() const;
+    const std::string& GetFilename() const;
 
     void RecordMorse();
-    void PlayMorse(const char*);
+    void PlayMorse();
 
-    std::string& ConvertToMorse(std::string&);
+    const std::string ConvertToMorse();
+
+
 
 private:
     void FormatCode();
