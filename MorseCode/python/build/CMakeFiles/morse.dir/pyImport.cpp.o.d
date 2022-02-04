@@ -201,7 +201,12 @@ CMakeFiles/morse.dir/pyImport.cpp.o: \
  /usr/include/c++/11.1.0/bits/unordered_map.h \
  /usr/include/c++/11.1.0/vector /usr/include/c++/11.1.0/bits/stl_vector.h \
  /usr/include/c++/11.1.0/bits/stl_bvector.h \
- /usr/include/c++/11.1.0/bits/vector.tcc \
+ /usr/include/c++/11.1.0/bits/vector.tcc /usr/include/c++/11.1.0/thread \
+ /usr/include/c++/11.1.0/bits/std_thread.h \
+ /usr/include/c++/11.1.0/bits/this_thread_sleep.h \
+ /usr/include/c++/11.1.0/chrono /usr/include/c++/11.1.0/ratio \
+ /usr/include/c++/11.1.0/ctime \
+ /usr/include/c++/11.1.0/bits/parse_numbers.h \
  /home/hamburgerjohn/dev/BeginnerProgramming/MorseCode/python/pybind11/include/pybind11/pybind11.h \
  /home/hamburgerjohn/dev/BeginnerProgramming/MorseCode/python/pybind11/include/pybind11/attr.h \
  /home/hamburgerjohn/dev/BeginnerProgramming/MorseCode/python/pybind11/include/pybind11/cast.h \

@@ -1,73 +1,68 @@
+#cmake .. && make && python ../test.py
+from asyncore import write
+from pickletools import pyunicode
 import build.morse
 from build.morse import *
 
-# print(dir(build.module_name))
-# print(some_fn_pthon_name(1, 2))
+def func(x):
+    decipher = PyMorseCodeDecipher()
+    writer = PyMorseCodePlayer()
 
+    if x == 7:
+        filename = input("Enter filename: ")
+        writer.PlayMorse(filename)
+        return
 
-c = PyMorseCodeDecipher()
+    phrase = input("Enter Phrase: ")
+   
+    if x == 1:
+        print("\n" + decipher.ConvertToEnglish(phrase))
+        return
+    if x == 2:
+        print("\n" + writer.ConvertToMorse(phrase))
+        return
 
-x = input("Enter English")
+    filename = ""
+    filename = input("Enter filename: ")
+    decipher.SetFilename(filename)
+    decipher.Decipher()
+    
+    if x == 3:
+        print("\n" + decipher.GetDecipheredCode())
+        return
+    
+    if x == 4:
+        print("\n" + decipher.ConvertToEnglish(decipher.GetDecipheredCode()))
+        return
+    
+    writer.InitWAVE(filename)
 
-print(c.ConvertToEnglish(x))
+    if x == 5:
+        writer.SetCode(phrase)
+    
+    if x == 6:
+        writer.ConvertToMorse(phrase)
+    
+    writer.RecordMorse()
 
+while(True):
+    x = int(input("1: Morse to English 2: English to Morse \n3: Morse from audio 4: English from audio \n5: Morse to audio   6: English to audio\n7: Play Audio\n"))
 
-# int choice;
-#     std::cout << "1: Morse to English 2: English to Morse \n3: Morse from audio 4: English from audio \n5: Morse to audio   6: English to audio";
-#     std::cin >> choice;
-#     std::getchar();
-#     switch(choice){
-#         case 1:
-#             std::cout << "Enter Morse: ";
-#             std::getline(std::cin, code);
-#             std::cout << decipher->ConvertToEnglish(code) << '\n';
-#             break;
+    match x:
+        case 1:
+            func(x)
+        case 2:
+            print(x)
+            func(x)
+        case 3:
+            func(x)
+        case 4:
+            func(x)
+        case 5:
+            func(x)
+        case 6:
+            func(x)
+        case 7:
+            func(x)
+            
 
-#         case 2:
-#             std::cout << "Enter English: ";
-#             std::getline(std::cin, code);
-#             std::cout << morse_code->ConvertToMorse(code) << '\n';
-#             break;
-        
-#         case 3:
-#             std::cout << "Enter filename: ";
-#             std::getline(std::cin, code);
-#             decipher->SetFilename(code.c_str());
-#             decipher->Decipher();
-#             std::cout << decipher->GetDecipheredCode() << '\n';
-#             break;
-
-#         case 4:
-#             std::cout << "Enter filename: ";
-#             std::getline(std::cin, code);
-#             decipher->SetFilename(code.c_str());
-#             decipher->Decipher();
-#             std::cout << decipher->ConvertToEnglish(decipher->GetDecipheredCode()) << '\n';
-#             break;
-
-#         case 5:
-#             std::cout << "Enter Filename: ";
-#             std::getline(std::cin, code);
-#             std::getchar();
-#             morse_code->InitWAVE(code.c_str());
-#             std::cout << "Enter Morse: ";
-#             std::getline(std::cin, code);
-#             morse_code->SetCode(code.c_str());
-#             morse_code->PlayMorse();
-#             break;
-
-#         case 6:
-#             std::cout << "Enter Filename: ";
-#             std::getline(std::cin, code);
-#             std::getchar();
-#             morse_code->InitWAVE(code.c_str());
-#             std::cout << "Enter Englisg: ";
-#             std::getline(std::cin, code);
-#             morse_code->ConvertToMorse(code);
-#             morse_code->PlayMorse();
-#             break;
-
-#         default:
-#             std::cout << "retard\n";
-#             break;
-#     }

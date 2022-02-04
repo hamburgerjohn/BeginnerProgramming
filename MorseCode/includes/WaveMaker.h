@@ -10,6 +10,7 @@
 #include <map>
 #include <cctype>
 #include <algorithm>
+#include <thread>
 
 namespace Morse{
 

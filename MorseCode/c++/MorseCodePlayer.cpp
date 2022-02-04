@@ -2,12 +2,12 @@
 
 using namespace Morse;
 
-MorseCodePlayer::MorseCodePlayer(const char* code) : WriteMorseCode(){ this->code = code;}
+MorseCodePlayer::MorseCodePlayer(std::string code) : WriteMorseCode(){ this->code = code;}
 MorseCodePlayer::MorseCodePlayer() : WriteMorseCode(){}
 MorseCodePlayer::~MorseCodePlayer(){}
 
 
-void MorseCodePlayer::SetCode(const char* code){
+void MorseCodePlayer::SetCode(std::string code){
     this->code = code;
 }
 
@@ -15,7 +15,7 @@ const std::string&  MorseCodePlayer::GetCode() const{
     return code;
 }
 
-void MorseCodePlayer::PlayMorse(){
+void MorseCodePlayer::RecordMorse(){
         
     FormatCode();
     SetPos();
@@ -31,6 +31,14 @@ void MorseCodePlayer::PlayMorse(){
         } 
     }
     FinalizeWAVE();
+}
+
+void MorseCodePlayer::PlayMorse(const char* filename){
+    std::string a = filename;
+    
+    std::thread th(&MorseCodePlayer::Execute,this,"cvlc --play-and-exit " + a);
+
+    th.join();
 }
 
 std::string& MorseCodePlayer::ConvertToMorse(std::string& phrase) {
@@ -54,3 +62,6 @@ void MorseCodePlayer::FormatCode(){
     }
 }
 
+void MorseCodePlayer::Execute(std::string cmd){
+    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(cmd.c_str(), "r"), pclose);
+}

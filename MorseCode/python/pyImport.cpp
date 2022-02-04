@@ -23,7 +23,9 @@ PYBIND11_MODULE(morse, handle){
     .def(py::init<const char*>())
     .def(py::init<>())
     .def("ConvertToMorse", &MorseCodePlayer::ConvertToMorse)
-    .def("InitWAVE", &MorseCodePlayer::InitWAVE);
-
+    .def("InitWAVE", &MorseCodePlayer::InitWAVE)
+    .def("RecordMorse", &MorseCodePlayer::RecordMorse)
+    .def("PlayMorse", &MorseCodePlayer::PlayMorse)
+    .def("SetCode", &MorseCodePlayer::GetCode);
 }
 
