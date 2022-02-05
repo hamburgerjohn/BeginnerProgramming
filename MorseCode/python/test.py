@@ -25,11 +25,13 @@ while(True):
             decipher.SetPhrase(f)
 
         case 3:
+            writer.SetPhrase(f)
             writer.InitWAVE()
             writer.ConvertToMorse()
             writer.RecordMorse()
         
         case 4:
+            writer.SetPhrase(f)
             writer.InitWAVE()
             writer.RecordMorse()
 
@@ -39,7 +41,7 @@ while(True):
 
         case 6:
             decipher.Decipher()
-            print(decipher.ConvertToEnglish())
+            print(decipher.GetDecipheredCode())
             
         case 7:
             writer.PlayMorse()
