@@ -1,4 +1,4 @@
-#pragma once 
+#pragma once
 
 #include <memory>
 #include <thread>
@@ -15,7 +15,6 @@
 #define _WIN32_WINNT 0x0A00
 #endif
 
-#define ASIO_STANDALONE
-#include <asio.hpp>
-#include <asio/ts/buffer.hpp>
-#include <asio/ts/internet.hpp>
+#include <boost/asio.hpp>
+#include <boost/bind/bind.hpp>
+#include <boost/enable_shared_from_this.hpp>

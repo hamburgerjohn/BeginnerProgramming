@@ -1,33 +1,42 @@
-#include "includes/net_message.h"
+#include <stdio.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#include <iostream>
+#include <string.h>
 
+int PORT = 3389;
 
-enum class CustomMsgTypes : uint32_t
-{
-    FireBulet, MovePlayer
-};
+int main(int argc, const char **argv){
+    
+    int sock =0, valread;
+    struct sockaddr_in serv_addr;
+    char* hello = "Hello from client";
+    char buffer[1024] = {};
 
+    if((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0){
+        std::cout << "Socket creation error\n";
+        return -1;       
+    }
 
-int main()
-{
-    olc::net::message<CustomMsgTypes> msg;
+    serv_addr.sin_family = AF_INET;
+    serv_addr.sin_port = htons(PORT);
 
-    msg.header.id = CustomMsgTypes::MovePlayer;
+  
+    if(inet_pton(AF_INET, "72.53.118.107", &serv_addr.sin_addr) <= 0){
+        std::cout << "Bad Address\n";
+    }
 
-    int a = 1;
-    bool b = true;
-    float c = 3.14159f;
+    if(connect(sock, (struct sockaddr*)&serv_addr, sizeof(serv_addr)) < 0){
+        std::cout << "Connection Failed\n"; 
+    }
 
-    struct{
-        float x, y;
-    }d[5];
+    send(sock, hello, strlen(hello), 0);
+    std::cout << "Message Sent\n";
 
-    msg << a << b << c << d;
+    valread = read(sock, buffer, 1024);
+    std::cout << buffer << '\n';
+    
+    return 0;
 
-    a = 99;
-    b = false;
-    c = 99.0f;
-
-    msg >> d >> c >> b >> a;
-
-    std::cout << msg;
 }
