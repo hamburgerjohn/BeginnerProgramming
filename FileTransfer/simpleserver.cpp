@@ -5,7 +5,7 @@
 #include <netinet/in.h>
 #include <string.h>
 #include <arpa/inet.h>
-int PORT = 3389;
+int PORT = 8080;
 
 
 int main(int argc, char const **argv)

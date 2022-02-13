@@ -5,7 +5,7 @@
 #include <iostream>
 #include <string.h>
 
-int PORT = 3389;
+int PORT = 8080;
 
 int main(int argc, const char **argv){
     
@@ -23,7 +23,7 @@ int main(int argc, const char **argv){
     serv_addr.sin_port = htons(PORT);
 
   
-    if(inet_pton(AF_INET, "72.53.118.107", &serv_addr.sin_addr) <= 0){
+    if(inet_pton(AF_INET, "---------", &serv_addr.sin_addr) <= 0){
         std::cout << "Bad Address\n";
     }
 
