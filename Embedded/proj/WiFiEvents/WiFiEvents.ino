@@ -34,8 +34,8 @@ int time_start;
 
 void setup() {
   Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
+  pinMode(D0, OUTPUT);
+  pinMode(D2, OUTPUT);
 
   // Don't save WiFi configuration in flash - optional
   WiFi.persistent(false);
@@ -54,8 +54,6 @@ void setup() {
   // a probe request is received.
   // Former will print MAC address of the station and RSSI to Serial,
   // latter will blink an LED.
-  probeRequestPrintHandler = WiFi.onSoftAPModeProbeRequestReceived(&onProbeRequestPrint);
-  probeRequestBlinkHandler = WiFi.onSoftAPModeProbeRequestReceived(&onProbeRequestBlink);
 }
 
 void onStationConnected(const WiFiEventSoftAPModeStationConnected& evt) {
@@ -70,45 +68,30 @@ void onStationDisconnected(const WiFiEventSoftAPModeStationDisconnected& evt) {
   disconnected = true;
 }
 
-void onProbeRequestPrint(const WiFiEventSoftAPModeProbeRequestReceived& evt) {
-  Serial.print("Probe request from: ");
-  Serial.print(macToString(evt.mac));
-  Serial.print(" RSSI: ");
-  Serial.println(evt.rssi);
-}
-
-void onProbeRequestBlink(const WiFiEventSoftAPModeProbeRequestReceived&) {
-  // We can't use "delay" or other blocking functions in the event handler.
-  // Therefore we set a flag here and then check it inside "loop" function.
-  blinkFlag = true;
-}
 
 void loop() {
-  if (millis() > 10000 && probeRequestPrintHandler) {
-    // After 10 seconds, disable the probe request event handler which prints.
-    // Other three event handlers remain active.
-    Serial.println("Not printing probe requests any more (LED should still blink)");
-    probeRequestPrintHandler = WiFiEventHandler();
-  }
-  if (blinkFlag) {
-    blinkFlag = false;
-    digitalWrite(LED_BUILTIN, LOW);
-    delay(100);
-    digitalWrite(LED_BUILTIN, HIGH);
-  }
+
+  delay(100);
+  
   if(connection){
-    time_start = millis();
     connection = false;
-    digitalWrite(LED_BUILTIN, LOW);
-    delay(2000);
-    digitalWrite(LED_BUILTIN, HIGH);
+    digitalWrite(D0, LOW);
+    digitalWrite(D2, LOW);
+    delay(1000);
+    digitalWrite(D0,HIGH);
+    digitalWrite(D2,HIGH);
+    Serial.println("Power ON");
   }
 
-  if(disconnected){
-    Serial.print("Time Connected: ");
-    Serial.println(millis() - time_start);
-    disconnected = false;
-  }
+//  if(disconnected){
+//    disconnected = false;
+//    digitalWrite(D0, LOW);
+//    digitalWrite(D2, LOW);
+//    delay(5500);
+//    digitalWrite(D0,HIGH);
+//    digitalWrite(D2,HIGH);
+//    Serial.println("Power OFF");
+//  }
   delay(10);
 }
 

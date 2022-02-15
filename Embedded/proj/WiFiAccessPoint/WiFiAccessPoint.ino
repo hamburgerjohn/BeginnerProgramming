@@ -52,6 +52,34 @@ void handleRoot() {
   server.send(200, "text/html", "<h1>You are connected</h1>");
 }
 
+void OnOff(){
+  while(Serial.available())
+  {
+     delay(15);
+     data=Serial.read();
+     SerialData+=data;
+  }
+  if(SerialData=="on")
+  {
+    digitalWrite(D0, LOW);
+    digitalWrite(D2, LOW);
+    delay(1000);
+    digitalWrite(D0,HIGH);
+    digitalWrite(D2,HIGH);
+    Serial.println("Power ON");
+  }
+  if(SerialData=="off"){
+    digitalWrite(D0, LOW);
+    digitalWrite(D2, LOW);
+    delay(5500);
+    digitalWrite(D0,HIGH);
+    digitalWrite(D2,HIGH);
+    Serial.println("Power OFF");
+  }
+ 
+  SerialData="";
+}
+
 void setup() {
   delay(1000);
   Serial.begin(115200);
@@ -67,6 +95,8 @@ void setup() {
   server.begin();
   Serial.println("HTTP server started");
 }
+
+
 
 void loop() {
   server.handleClient();
